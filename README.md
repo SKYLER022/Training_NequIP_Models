@@ -48,14 +48,17 @@ python force_plot_result.py
 📦 Files and Scripts
 
 File/Script	Description
-INCAR_MDexample	Example INCAR file for VASP MD calculations.
-write_extxyz.py	Extracts training data from OUTCAR to extxyz.
-config.yaml	Configuration file for NequIP training.
-scf_prepare_structures	Prepares structures for SCF calculations.
-get_forces_scf	Extracts forces from SCF results.
-get_energies_scf	Extracts energies from SCF results.
-get_forces_model	Extracts forces from ML predictions.
-get_energies_model	Extracts energies from ML predictions.
-energy_plot_result.py	Plots energy comparison results.
-force_plot_result.py	Plots force comparison results.
+| **File/Script**          | **Description**                                    |
+|---------------------------|----------------------------------------------------|
+| `INCAR_MDexample`         | Example INCAR file for VASP MD calculations.       |
+| `write_extxyz.py`         | Extracts training data from `OUTCAR` to extxyz.    |
+| `config.yaml`             | Configuration file for NequIP training.           |
+| `scf_prepare_structures`  | Prepares structures for SCF calculations.         |
+| `get_forces_scf`          | Extracts forces from SCF results.                 |
+| `get_energies_scf`        | Extracts energies from SCF results.               |
+| `get_forces_model`        | Extracts forces from ML predictions.              |
+| `get_energies_model`      | Extracts energies from ML predictions.            |
+| `energy_plot_result.py`   | Plots energy comparison results.                  |
+| `force_plot_result.py`    | Plots force comparison results.                   |
+
 
