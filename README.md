@@ -42,7 +42,9 @@ Use get_forces_model and get_energies_model to obtain ML predictions.
 Plot energy and force comparisons:
 
 python energy_plot_result.py
+
 python force_plot_result.py
+
 📦 Files and Scripts
 
 File/Script	Description
