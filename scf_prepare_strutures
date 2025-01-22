@@ -1,0 +1,10 @@
+from ase.io import read, write
+
+atoms = read("OUTCAR", index=":")
+
+if len(atoms) > 0:
+    for i, structure in enumerate(atoms[:500]):  
+        write(f"POSCAR_{i+1}", structure)  
+        print(f"Structure {i+1} saved as POSCAR_{i+1}")
+else:
+    print("No structures found in OUTCAR.")
