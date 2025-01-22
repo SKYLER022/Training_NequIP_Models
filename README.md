@@ -1,7 +1,7 @@
 🚀 Data Preparation for ML with NequIP
 ---------------------------------------
 Prepare training data for NequIP machine learning models using VASP MD results. This repository provides tools to extract data, train models, and validate predictions.
----------------------------------------
+
 🌟 Features
 ---------------------------------------
 Extract training data in extxyz format from VASP's OUTCAR.
@@ -47,7 +47,7 @@ python force_plot_result.py
 
 📦 Files and Scripts
 ----------------------------
-File/Script	Description
+
 | **File/Script**          | **Description**                                    |
 |---------------------------|----------------------------------------------------|
 | `INCAR_MDexample`         | Example INCAR file for VASP MD calculations.       |
