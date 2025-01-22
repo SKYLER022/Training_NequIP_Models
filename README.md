@@ -11,5 +11,5 @@ For nequip machine learning training, we could prepare extxyz file from VASP OUT
 5.Test the model. Compare energies and forces from vasp scf calculations and machine learning results.
 SCF: Get Structures from new OUTCAR using [scf_prepare_structures], and write bash code to do scf calculations.      
 [get_forces_scf] and [get_energies_scf] can help you get the scf data.
-MODEL: [get_forces_model] and [get_energies_model].
-
+ML: [get_forces_model] and [get_energies_model].
+6.Plot the results: [energy_plot_result] and [force_plot_result].
