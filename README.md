@@ -16,7 +16,7 @@ Prepare molecular dynamics (MD) simulations using VASP. Use the provided example
 2. Generate Training Data
 Use the script write_extxyz.py to convert data from VASP's OUTCAR to an extxyz file for training.
 
-python write_extxyz.py OUTCAR nequip-data.extxyz
+python write_extxyz.py 
 
 3. Train the Model with NequIP
 Train the NequIP model using nequip-data.extxyz and a configuration file config.yaml.
