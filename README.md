@@ -8,8 +8,9 @@ Extract training data in extxyz format from VASP's OUTCAR.
 Seamless integration with NequIP for machine learning training.
 Tools for testing and validating ML models against SCF calculations.
 Scripts for visualizing results with energy and force comparison plots.
-📋 Workflow
 
+📋 Workflow
+---------------------------------------
 1. Perform VASP AIMD Calculations
 Prepare molecular dynamics (MD) simulations using VASP. Use the provided example INCAR file: INCAR_MDexample.
 
