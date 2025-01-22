@@ -1,0 +1,30 @@
+import numpy as np
+import matplotlib.pyplot as plt
+
+modelget_energy = np.loadtxt('modelget_energy.txt')
+enthalpy_values = np.loadtxt('energy_values.txt')
+
+if len(modelget_energy) != len(enthalpy_values):
+    print("The files have different lengths of data.")
+else:
+    num_atoms = 64  
+    modelget_energy_per_atom = modelget_energy / num_atoms
+    enthalpy_values_per_atom = enthalpy_values / num_atoms
+
+    mae = np.mean(np.abs(modelget_energy_per_atom - enthalpy_values_per_atom))
+    print(f"Mean Absolute Error (MAE) per atom: {mae:.6f}")
+
+    fig, axs = plt.subplots(1, 1, figsize=(8, 6))
+    axs.scatter(modelget_energy_per_atom, enthalpy_values_per_atom, color='blue', alpha=0.6)
+    axs.set_xlabel(r'$E_{ML}$ (eV/atom)', fontsize=12)
+    axs.set_ylabel(r'$E_{DFT}$ (eV/atom)', fontsize=12)
+    axs.set_title('Comparison of DFT and ML enthalpy per atom', fontsize=14)
+    axs.grid(True)
+
+    min_val = min(modelget_energy_per_atom.min(), enthalpy_values_per_atom.min())
+    max_val = max(modelget_energy_per_atom.max(), enthalpy_values_per_atom.max())
+    axs.plot([min_val, max_val], [min_val, max_val], color='red', linestyle='--')
+
+    plt.tight_layout()
+    plt.show()
+    plt.savefig('scatter_plot_per_atom.png')
