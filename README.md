@@ -17,17 +17,17 @@ Prepare molecular dynamics (MD) simulations using VASP. Use the provided example
 2. Generate Training Data
 Use the script write_extxyz.py to convert data from VASP's OUTCAR to an extxyz file for training.
 
-python write_extxyz.py 
+`python write_extxyz.py` 
 
 3. Train the Model with NequIP
 Train the NequIP model using nequip-data.extxyz and a configuration file config.yaml.
 
-nequip-train config.yaml
+`nequip-train config.yaml`
 
 4. Deploy the Model
 Once training is complete, deploy the trained model:
 
-nequip-deploy build --train-dir path/to/training/session/ --out cdsemodel.pth
+`nequip-deploy build --train-dir path/to/training/session/ --out cdsemodel.pth`
 
 5. Validate the Model
 Compare energies and forces between SCF calculations and ML predictions:
@@ -42,7 +42,7 @@ Use get_forces_model and get_energies_model to obtain ML predictions.
 6. Visualize Results
 Plot energy and force comparisons:
 
-python energy_plot_result.py
+`python energy_plot_result.py`
 
 `python force_plot_result.py`
 
