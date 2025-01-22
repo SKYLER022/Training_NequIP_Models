@@ -1,0 +1,23 @@
+#!/bin/bash
+
+output_file="energy_values.txt"
+> $output_file  
+
+for i in {1..500}; do
+    if [ -d "scf_$i" ]; then
+        cd "scf_$i" || continue
+        if [ -f "OUTCAR" ]; then
+            energy_line=$(grep 'free  energy   TOTEN' OUTCAR)
+            if [[ $energy_line =~ ([+-]?[0-9]*\.?[0-9]+)\ eV ]]; then
+                echo "${BASH_REMATCH[1]}" >> "../$output_file"
+            else
+                echo "scf_$i: free energy value not found" >> "../$output_file"
+            fi
+        else
+            echo "scf_$i: OUTCAR not found" >> "../$output_file"
+        fi
+        cd ..
+    else
+        echo "scf_$i: directory not found" >> $output_file
+    fi
+done
