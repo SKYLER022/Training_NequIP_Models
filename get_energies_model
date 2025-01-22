@@ -1,0 +1,42 @@
+import os
+from ase.io import read
+from nequip.ase.nequip_calculator import NequIPCalculator
+
+# Define NequIP model path
+nequip_ef_path = "model/cdsemodel.pth"
+pwd_dir = os.getcwd()
+model_path = os.path.join(pwd_dir, nequip_ef_path)
+
+# Initialize calculator
+calc = NequIPCalculator.from_deployed_model(model_path)
+
+# Define the main function for processing a single file
+def main(poscar_file, output_file):
+    try:
+        print(f"Processing {poscar_file}")
+        atoms = read(poscar_file)
+        print(f"Number of atoms: {len(atoms)}")
+#        pressure = 0.625
+
+        atoms.calc = calc
+
+        # Calculate and save energy
+#        energy = atoms.get_potential_energy()+pressure * atoms.get_volume()
+        energy = atoms.get_potential_energy()
+        print(f"Energy for {poscar_file}: {energy} eV")
+        with open(output_file, 'a') as f:  # Append mode to keep previous results
+            f.write(f"{energy:.6f}\n")
+    except Exception as e:
+        print(f"Error processing {poscar_file}: {e}")
+
+if __name__ == "__main__":
+    output_file = "modelget_energy.txt"
+    if os.path.exists(output_file):
+        os.remove(output_file)  # Clear previous content
+
+    for i in range(1, 501):
+        poscar_file = f"POSCAR_{i}"
+        if os.path.isfile(poscar_file):
+            main(poscar_file, output_file)
+        else:
+            print(f"{poscar_file} not found.")
