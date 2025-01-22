@@ -1,0 +1,65 @@
+import numpy as np
+import matplotlib.pyplot as plt
+
+def calculate_mae(forces_calculated, forces_extracted):
+    return np.mean(np.abs(forces_calculated - forces_extracted))
+
+def read_forces(file_name, num_groups=500, group_size=64):
+    forces = []
+    with open(file_name, "r") as f:
+        current_group = []
+        for line in f:
+            if line.startswith("#") or "Forces for POSCAR" in line:
+                continue
+            if line.strip() == "":
+                continue
+            parts = line.split()
+            if len(parts) == 3:
+                current_group.append([float(parts[0]), float(parts[1]), float(parts[2])])
+            if len(current_group) == group_size:
+                forces.append(np.array(current_group))
+                current_group = []
+    return np.array(forces)
+
+def main(calculated_file, extracted_file):
+    forces_calculated = read_forces(calculated_file)
+    forces_extracted = read_forces(extracted_file)
+
+    if forces_calculated.shape != forces_extracted.shape:
+        print(f"Error: The number of groups or atoms in {calculated_file} and {extracted_file} do not match.")
+        return
+
+    total_mae = 0
+    f_dft = []
+    f_ml = []
+    for i in range(forces_calculated.shape[0]):
+        mae = calculate_mae(forces_calculated[i], forces_extracted[i])
+        total_mae += mae
+        print(f"MAE for group {i + 1}: {mae:.6f}")
+
+        f_dft.extend(forces_extracted[i].flatten())
+        f_ml.extend(forces_calculated[i].flatten())
+
+    avg_mae = total_mae / forces_calculated.shape[0]
+    print(f"\nTotal MAE: {avg_mae:.6f}")
+
+    plt.figure(figsize=(8, 6))
+    plt.scatter(f_ml, f_dft, color='blue', alpha=0.6)
+    plt.xlabel(r"$F_{ML}$ (eV/Å)", fontsize=12)
+    plt.ylabel(r"$F_{DFT}$ (eV/Å)", fontsize=12)
+    plt.title("Comparison of DFT and ML Forces", fontsize=14)
+    plt.grid(True)
+
+    p = np.polyfit(f_dft, f_ml, 1)
+    plt.plot(f_dft, np.polyval(p, f_dft), color='red', linestyle='--')
+
+    plt.tight_layout()
+
+    plt.show()
+    plt.savefig("forces_comparison.png")
+
+if __name__ == "__main__":
+    calculated_file = "modelget_forces.txt"
+    extracted_file = "forces.txt"
+
+    main(calculated_file, extracted_file)
