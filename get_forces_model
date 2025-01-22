@@ -1,0 +1,48 @@
+import os
+from ase.io import read
+from nequip.ase.nequip_calculator import NequIPCalculator
+
+# Define NequIP model path
+nequip_ef_path = "model/cdsemodel.pth"
+pwd_dir = os.getcwd()
+model_path = os.path.join(pwd_dir, nequip_ef_path)
+
+# Initialize calculator
+calc = NequIPCalculator.from_deployed_model(model_path)
+
+# Define the main function for processing a single file
+def main(poscar_file, force_file):
+    try:
+        print(f"Processing {poscar_file}")
+        atoms = read(poscar_file)
+        print(f"Number of atoms: {len(atoms)}")
+
+        atoms.calc = calc
+
+        # Calculate forces
+        forces = atoms.get_forces()
+        print(f"Forces for {poscar_file}:")
+        print(forces)
+
+        with open(force_file, 'a') as ff:
+            ff.write(f"Forces for {poscar_file}:\n")
+            for force in forces:
+                ff.write(f"{force[0]:.6f} {force[1]:.6f} {force[2]:.6f}\n")
+            ff.write("\n")  # Add a blank line between force entries
+
+    except Exception as e:
+        print(f"Error processing {poscar_file}: {e}")
+
+if __name__ == "__main__":
+    force_file = "modelget_forces.txt"
+
+    # Clear previous content in the output files
+    if os.path.exists(force_file):
+        os.remove(force_file)
+
+    for i in range(1, 501):
+        poscar_file = f"POSCAR_{i}"
+        if os.path.isfile(poscar_file):
+            main(poscar_file, force_file)
+        else:
+            print(f"{poscar_file} not found.")
