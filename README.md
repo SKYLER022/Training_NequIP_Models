@@ -9,5 +9,6 @@ For nequip machine learning training, we could prepare extxyz file from VASP OUT
 4.To get the model. Command: nequip-deploy build --train-dir path/to/training/session/ where/to/put/deployed_model.pth
 (you can name it as cdsemodel.pth) 
 5.Test the model. Compare energies and forces from vasp scf calculations and machine learning results.
-SCF: Get Structures from new OUTCAR using [scf_prepare_structures], and write bash code to do scf calculations.
+SCF: Get Structures from new OUTCAR using [scf_prepare_structures], and write bash code to do scf calculations.      
+[get_forces_scf] and [get_energies_scf] can help you get the scf data.
 
