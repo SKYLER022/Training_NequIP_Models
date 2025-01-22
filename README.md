@@ -37,6 +37,7 @@ Perform SCF calculations using a bash script.
 Use get_forces_scf and get_energies_scf to extract SCF results.
 ML Predictions:
 Use get_forces_model and get_energies_model to obtain ML predictions.
+
 6. Visualize Results
 Plot energy and force comparisons:
 
