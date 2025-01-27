@@ -1,0 +1,54 @@
+from ase.io import read, Trajectory
+from ase import Atoms
+import numpy as np
+import os
+
+for mdir in range(1, 7):
+  print(mdir)
+  os.chdir(str(mdir))
+
+  base_atom = read("POSCAR", format="vasp")
+  syms = base_atom.get_chemical_symbols()
+  f = open("OUTCAR", "r")
+
+
+  positions = []
+  position = []
+  cells = []
+  cell = []
+  sig1 = False
+  sig2 = False
+  sig3 = False
+  for l in f:
+    if sig3 and "--------------------" not in l:
+      position.append([float(x) for x in l.split()[:3]])
+      if len(position) == len(syms):
+        sig3 = False
+    if "POSITION                                       TOTAL-FORCE (eV/Angst)" in l:
+      sig3 = True
+      position = []
+    if sig2:
+      cell.append([float(x) for x in l.split()[:3]])
+      if len(cell) == 3:
+        sig2 = False
+    if "direct lattice vectors                 reciprocal lattice vectors" in l:
+      sig2 = True
+      cell = []
+    if "aborting loop because EDIFF is reached" in l:
+      sig1 = True
+    if "FREE ENERGIE OF THE ION-ELECTRON SYSTEM" in l:
+      sig1 = False
+      positions.append(position)
+      cells.append(cell)
+
+
+  atoms = []
+  for i in range(len(cells)):
+    atoms.append(Atoms(symbols=syms, positions=positions[i], cell=cells[i], pbc=True))
+
+
+  traj = Trajectory("../MD_TRAJS/mdsim_" + str(mdir) + ".traj", mode="w")
+  for a in atoms:
+    traj.write(a)
+
+  os.chdir("..")
